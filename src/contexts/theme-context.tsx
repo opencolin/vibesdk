@@ -8,7 +8,7 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'system',
+  theme: 'dark',
   setTheme: () => {},
 });
 
@@ -27,7 +27,7 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('theme') as Theme;
-    return savedTheme || 'system';
+    return savedTheme || 'dark';
   });
 
   const applyTheme = (newTheme: Theme) => {

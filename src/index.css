@@ -6,17 +6,17 @@
   src:  url('./assets/fonts/DepartureMono-Regular.woff') 
 }
 
-/* Subtle chat edge throb effect */
+/* Subtle chat edge throb effect — uses brand-primary so it tracks the theme accent */
 @keyframes chat-edge-throb {
   0%, 100% {
     box-shadow:
-      0 0 0 0 rgba(246, 130, 31, 0.10),
-      inset 0 0 0 1px rgba(246, 130, 31, 0.16);
+      0 0 0 0 var(--build-chat-edge-throb-soft, rgba(5, 43, 66, 0.10)),
+      inset 0 0 0 1px var(--build-chat-edge-throb-soft, rgba(5, 43, 66, 0.16));
   }
   50% {
     box-shadow:
-      0 0 0 6px rgba(255, 61, 0, 0.08),
-      inset 0 0 0 2px rgba(255, 61, 0, 0.22);
+      0 0 0 6px var(--build-chat-edge-throb-strong, rgba(5, 43, 66, 0.08)),
+      inset 0 0 0 2px var(--build-chat-edge-throb-strong, rgba(5, 43, 66, 0.22));
   }
 }
 
@@ -85,14 +85,15 @@
 @custom-variant dark (&:is(.dark *));
 @plugin '@tailwindcss/typography';
 @theme inline {
+	/* Two-tier radius scale: 10px inputs, 24px cards/buttons */
 	--radius-sm:
-		calc(var(--radius) - 4px);
+		calc(var(--radius) - 14px);
 	--radius-md:
-		calc(var(--radius) - 2px);
+		calc(var(--radius) - 8px);
 	--radius-lg:
 		var(--radius);
 	--radius-xl:
-		calc(var(--radius) + 4px);
+		calc(var(--radius) + 8px);
 	--color-accent:
 		var(--build-accent-color);
 	--color-destructive:
@@ -133,69 +134,110 @@
 
 
 :root {
+	/* Brand palette */
+	--deep-navy: #052b42;
+	--neon-lime: #e0ff4f;
+	--ice-blue: #cdf0fd;
+	--action-blue: #3277ff;
+
+	/* Accent flips between modes — navy in light, lime in dark. */
+	--accent: var(--deep-navy);
+	--accent-foreground: #ffffff;
+
+	/* Two-tier radius: cards/buttons at 24px, inputs derive 10px via --radius-sm. */
 	--radius:
-		0.625rem;
+		24px;
+
 	--destructive:
-		oklch(0.577 0.245 27.325);
+		#e53e3e;
 	--border:
-		oklch(0.922 0 0);
+		rgba(5, 43, 66, 0.12);
 	--input:
-		oklch(0.922 0 0);
+		#ffffff;
 	--ring:
-		oklch(0.708 0 0);
-	--build-accent-color: #ff3d00;
-	--build-chat-colors-bg-1: #e7e7e7;
-	--build-chat-colors-bg-2: #f6f6f6;
-	--build-chat-colors-bg-3: #fbfbfc;
-	--build-chat-colors-bg-4: #ffffff;
-	--build-chat-colors-border-primary: #e5e5e5;
-	--build-chat-colors-border-secondary: #eeeeee;
-	--build-chat-colors-border-tertiary: #eeeeee;
-	--build-chat-colors-danger: #950000cc;
-	--build-chat-colors-brand-heavy: #f6821f;
-	--build-chat-colors-brand-primary: #f6821f;
-	--build-chat-colors-brand-subtle: #f6821f;
+		var(--action-blue);
+
+	--build-accent-color: var(--deep-navy);
+
+	--build-chat-colors-bg-1: #ffffff;
+	--build-chat-colors-bg-2: #f8f9fb;
+	--build-chat-colors-bg-3: #f5f6f8;
+	--build-chat-colors-bg-4: #f0f1f4;
+
+	--build-chat-colors-border-primary: rgba(5, 43, 66, 0.12);
+	--build-chat-colors-border-secondary: rgba(5, 43, 66, 0.08);
+	--build-chat-colors-border-tertiary: rgba(5, 43, 66, 0.06);
+
+	--build-chat-colors-danger: #c0392bcc;
+
+	--build-chat-colors-brand-heavy: var(--deep-navy);
+	--build-chat-colors-brand-primary: var(--deep-navy);
+	--build-chat-colors-brand-subtle: rgba(5, 43, 66, 0.08);
+
 	--build-chat-colors-text-inverted: #ffffff;
-	--build-chat-colors-text-primary: #0a0a0a;
-	--build-chat-colors-text-secondary: #171717;
-	--build-chat-colors-text-tertiary: #21212199;
+	--build-chat-colors-text-primary: var(--deep-navy);
+	--build-chat-colors-text-secondary: rgba(5, 43, 66, 0.78);
+	--build-chat-colors-text-tertiary: rgba(5, 43, 66, 0.55);
+
+	/* Throb keyframe targets — track the accent. */
+	--build-chat-edge-throb-soft: rgba(5, 43, 66, 0.12);
+	--build-chat-edge-throb-strong: rgba(5, 43, 66, 0.20);
 }
 
 .dark {
-	--destructive:
-		#ef4444; /* Error red */
-	--border:
-		#393939; /* Primary border color */
-	--input:
-		#292929; /* Input background */
+	--accent: var(--neon-lime);
+	--accent-foreground: var(--deep-navy);
 
-	--build-chat-colors-bg-1: #151515;
-	--build-chat-colors-bg-2: #1f2020;
-	--build-chat-colors-bg-3: #292929;
-	--build-chat-colors-bg-4: #3c3c3c;
-	--build-chat-colors-border-primary: #393939;
-	--build-chat-colors-border-secondary: #454746;
-	--build-chat-colors-border-tertiary: #454746;
-	--build-chat-colors-brand-heavy: #f6821f;
-	--build-chat-colors-brand-primary: #f6821f;
-	--build-chat-colors-brand-subtle: #f6821f;
-	--build-chat-colors-text-inverted: #000000;
-	--build-chat-colors-text-primary: #ffffff;
-	--build-chat-colors-text-secondary: #cdcaca;
-	--build-chat-colors-text-tertiary: #bcb9b9;
+	--destructive:
+		#ef4444;
+	--border:
+		rgba(205, 240, 253, 0.14);
+	--input:
+		#052b42;
+	--ring:
+		var(--action-blue);
+
+	--build-accent-color: var(--neon-lime);
+
+	--build-chat-colors-bg-1: #052b42;
+	--build-chat-colors-bg-2: #0a3a56;
+	--build-chat-colors-bg-3: #031a28;
+	--build-chat-colors-bg-4: #021420;
+
+	--build-chat-colors-border-primary: rgba(205, 240, 253, 0.14);
+	--build-chat-colors-border-secondary: rgba(205, 240, 253, 0.10);
+	--build-chat-colors-border-tertiary: rgba(205, 240, 253, 0.06);
+
+	--build-chat-colors-brand-heavy: var(--neon-lime);
+	--build-chat-colors-brand-primary: var(--neon-lime);
+	--build-chat-colors-brand-subtle: rgba(224, 255, 79, 0.10);
+
+	--build-chat-colors-text-inverted: var(--deep-navy);
+	--build-chat-colors-text-primary: #f0f4f8;
+	--build-chat-colors-text-secondary: rgba(240, 244, 248, 0.78);
+	--build-chat-colors-text-tertiary: rgba(240, 244, 248, 0.55);
+
+	--build-chat-edge-throb-soft: rgba(224, 255, 79, 0.16);
+	--build-chat-edge-throb-strong: rgba(224, 255, 79, 0.28);
 
 	--shadow-dialog:
-		0px 18px 60px 0px rgba(6, 6, 5, 0.1),
-		3px 3px 13px 0px rgba(0, 0, 0, 0.04), -3px 3px 13px 0px rgba(0, 0, 0, 0.04),
-		24px 24px 24px 0px rgba(0, 0, 0, 0.03),
-		-24px 24px 24px 0px rgba(0, 0, 0, 0.03),
-		53px 53px 32px 0px rgba(0, 0, 0, 0.02),
-		0px 0px 0px 1px rgba(217, 217, 217, 0.2);
+		0px 18px 60px 0px rgba(0, 0, 0, 0.5),
+		3px 3px 13px 0px rgba(0, 0, 0, 0.30), -3px 3px 13px 0px rgba(0, 0, 0, 0.30),
+		24px 24px 24px 0px rgba(0, 0, 0, 0.20),
+		-24px 24px 24px 0px rgba(0, 0, 0, 0.20),
+		53px 53px 32px 0px rgba(0, 0, 0, 0.10),
+		0px 0px 0px 1px rgba(205, 240, 253, 0.10);
 	--shadow-elevation:
-		6px 6px 13px 0px rgba(0, 0, 0, 0.2),
-		24px 24px 24px 0px rgba(0, 0, 0, 0.17),
-		53px 53px 32px 0px rgba(0, 0, 0, 0.12),
-		0px 0px 0px 1px rgba(217, 217, 217, 0.1);
+		6px 6px 13px 0px rgba(0, 0, 0, 0.35),
+		24px 24px 24px 0px rgba(0, 0, 0, 0.25),
+		53px 53px 32px 0px rgba(0, 0, 0, 0.15),
+		0px 0px 0px 1px rgba(205, 240, 253, 0.08);
+}
+
+/* Selection — locked to lime/navy regardless of mode. */
+::selection {
+	background: var(--neon-lime);
+	color: var(--deep-navy);
 }
 
 @layer base {
@@ -218,9 +260,11 @@
 		'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
 		'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-	--color-brand: #0092b8;
-	--color-text: #000;
-	--color-text-on-brand: #fff;
+	/* Brand utilities — `--color-brand` is consumed by the `text-brand`/`bg-brand` classes
+	   used by .a-tag links etc. Map to the accent so it tracks light/dark. */
+	--color-brand: var(--accent);
+	--color-text: var(--build-chat-colors-text-primary);
+	--color-text-on-brand: var(--accent-foreground);
 
 	--shadow-dialog:
 		0px 18px 60px 0px rgba(6, 6, 5, 0.1),
@@ -309,10 +353,10 @@
 
 .presentation-thumbnail-bg {
 	background:
-		radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-		radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-		radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
-		linear-gradient(135deg, #0a0e1a 0%, #0f172a 25%, #1e293b 50%, #0f172a 75%, #0a0e1a 100%);
+		radial-gradient(circle at 20% 80%, rgba(224, 255, 79, 0.16) 0%, transparent 50%),
+		radial-gradient(circle at 80% 20%, rgba(205, 240, 253, 0.18) 0%, transparent 50%),
+		radial-gradient(circle at 40% 40%, rgba(50, 119, 255, 0.12) 0%, transparent 40%),
+		linear-gradient(135deg, #021420 0%, #031a28 25%, #052b42 50%, #031a28 75%, #021420 100%);
 	background-size: 100% 100%, 100% 100%, 100% 100%, 400% 400%;
 }
 

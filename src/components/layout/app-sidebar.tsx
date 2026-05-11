@@ -31,7 +31,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/contexts/auth-context';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import { cn } from '@/lib/utils';
 import {
 	Tooltip,
@@ -68,6 +68,7 @@ interface AppMenuItemProps {
 	variant?: 'recent' | 'bookmarked';
 	showActions?: boolean;
 	isCollapsed: boolean;
+	isActive?: boolean;
 	getVisibilityIcon: (visibility: App['visibility']) => React.ReactNode;
 }
 
@@ -77,6 +78,7 @@ function AppMenuItem({
 	variant = 'recent',
 	showActions = true,
 	isCollapsed,
+	isActive = false,
 	getVisibilityIcon,
 }: AppMenuItemProps) {
 	const formatTimestamp = () => {
@@ -92,7 +94,8 @@ function AppMenuItem({
 			<SidebarMenuButton
 				asChild
 				tooltip={app.title}
-				className="cursor-pointer transition-opacity hover:opacity-75 pr-0"
+				isActive={isActive}
+				className="cursor-pointer transition-opacity hover:opacity-75 pr-0 border-l-2 border-transparent rounded-l-none data-[active=true]:border-[var(--accent)] data-[active=true]:text-[var(--accent)]"
 			>
 				<a
 					href={`/app/${app.id}`}
@@ -149,6 +152,7 @@ function AppMenuItem({
 export function AppSidebar() {
 	const { user } = useAuth();
 	const navigate = useNavigate();
+	const { pathname } = useLocation();
 	const [searchQuery, setSearchQuery] = React.useState('');
 	const [expandedGroups, setExpandedGroups] = React.useState<string[]>([
 		'apps',
@@ -323,6 +327,10 @@ export function AppSidebar() {
 																		isCollapsed={
 																			isCollapsed
 																		}
+																		isActive={
+																			pathname ===
+																			`/app/${app.id}`
+																		}
 																		getVisibilityIcon={
 																			getVisibilityIcon
 																		}
@@ -361,6 +369,10 @@ export function AppSidebar() {
 															showActions={true}
 															isCollapsed={
 																isCollapsed
+															}
+															isActive={
+																pathname ===
+																`/app/${app.id}`
 															}
 															getVisibilityIcon={
 																getVisibilityIcon
@@ -425,6 +437,10 @@ export function AppSidebar() {
 														showActions={true}
 														isCollapsed={
 															isCollapsed
+														}
+														isActive={
+															pathname ===
+															`/app/${app.id}`
 														}
 														getVisibilityIcon={
 															getVisibilityIcon
@@ -575,7 +591,8 @@ export function AppSidebar() {
 									id="discover-link"
 									onClick={() => navigate('/discover')}
 									tooltip="Discover"
-									className="group hover:opacity-80 hover:cursor-pointer hover:bg-bg-1/50 transition-all duration-200"
+									isActive={pathname === '/discover'}
+									className="group hover:opacity-80 hover:cursor-pointer hover:bg-bg-1/50 transition-all duration-200 border-l-2 border-transparent rounded-l-none data-[active=true]:border-[var(--accent)] data-[active=true]:text-[var(--accent)]"
 								>
 									<Compass className="h-6 w-6 text-text-primary/60 group-hover:text-primary/80 transition-colors" />
 									{!isCollapsed && (
@@ -589,7 +606,8 @@ export function AppSidebar() {
 								<SidebarMenuButton
 									onClick={() => navigate('/settings')}
 									tooltip="Settings"
-									className="group hover:opacity-80 hover:cursor-pointer hover:bg-bg-1/50 transition-all duration-200"
+									isActive={pathname.startsWith('/settings')}
+									className="group hover:opacity-80 hover:cursor-pointer hover:bg-bg-1/50 transition-all duration-200 border-l-2 border-transparent rounded-l-none data-[active=true]:border-[var(--accent)] data-[active=true]:text-[var(--accent)]"
 								>
 									<Settings className="h-6 w-6 text-text-primary/60 group-hover:text-primary/80 transition-colors" />
 									{!isCollapsed && (

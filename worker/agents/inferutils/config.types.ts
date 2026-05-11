@@ -337,7 +337,130 @@ const MODELS_MASTER = {
             creditCost: 8, // $0.22
             contextSize: 262144, // 256K Context
         },
-    }
+    },
+
+    // --- Token Factory Models ---
+    // OpenAI-compatible endpoint, configurable via TOKEN_FACTORY_BASE_URL.
+    // All entries use directOverride to bypass Cloudflare AI Gateway.
+    TF_QWEN_3_235B: {
+        id: 'token-factory/Qwen/Qwen3-235B-A22B-Instruct-2507',
+        config: {
+            name: 'Qwen 3 235B',
+            size: ModelSize.LARGE,
+            provider: 'token-factory',
+            creditCost: 1.6, // ~$0.40
+            contextSize: 262144,
+            directOverride: true,
+            nonReasoning: true,
+        }
+    },
+    TF_QWEN_3_CODER_480B: {
+        id: 'token-factory/Qwen/Qwen3-Coder-480B-A35B-Instruct',
+        config: {
+            name: 'Qwen 3 Coder 480B',
+            size: ModelSize.LARGE,
+            provider: 'token-factory',
+            creditCost: 2, // ~$0.50
+            contextSize: 262144,
+            directOverride: true,
+            nonReasoning: true,
+        }
+    },
+    TF_QWEN_3_30B: {
+        id: 'token-factory/Qwen/Qwen3-30B-A3B-Instruct-2507',
+        config: {
+            name: 'Qwen 3 30B (fast)',
+            size: ModelSize.LITE,
+            provider: 'token-factory',
+            creditCost: 0.4, // ~$0.10
+            contextSize: 262144,
+            directOverride: true,
+            nonReasoning: true,
+        }
+    },
+    TF_DEEPSEEK_V3: {
+        id: 'token-factory/deepseek-ai/DeepSeek-V3-0324',
+        config: {
+            name: 'DeepSeek V3',
+            size: ModelSize.LARGE,
+            provider: 'token-factory',
+            creditCost: 2, // ~$0.50
+            contextSize: 163840,
+            directOverride: true,
+            nonReasoning: true,
+        }
+    },
+    TF_DEEPSEEK_R1: {
+        id: 'token-factory/deepseek-ai/DeepSeek-R1-0528',
+        config: {
+            name: 'DeepSeek R1 (reasoning)',
+            size: ModelSize.LARGE,
+            provider: 'token-factory',
+            creditCost: 4, // ~$1.00
+            contextSize: 163840,
+            directOverride: true,
+        }
+    },
+    TF_LLAMA_3_3_70B: {
+        id: 'token-factory/meta-llama/Llama-3.3-70B-Instruct',
+        config: {
+            name: 'Llama 3.3 70B',
+            size: ModelSize.REGULAR,
+            provider: 'token-factory',
+            creditCost: 1, // ~$0.25
+            contextSize: 131072,
+            directOverride: true,
+            nonReasoning: true,
+        }
+    },
+    TF_GLM_4_5: {
+        id: 'token-factory/zai-org/GLM-4.5',
+        config: {
+            name: 'GLM 4.5',
+            size: ModelSize.LARGE,
+            provider: 'token-factory',
+            creditCost: 1.6,
+            contextSize: 131072,
+            directOverride: true,
+            nonReasoning: true,
+        }
+    },
+    TF_GLM_4_5_AIR: {
+        id: 'token-factory/zai-org/GLM-4.5-Air',
+        config: {
+            name: 'GLM 4.5 Air (fast)',
+            size: ModelSize.LITE,
+            provider: 'token-factory',
+            creditCost: 0.6,
+            contextSize: 131072,
+            directOverride: true,
+            nonReasoning: true,
+        }
+    },
+    TF_GPT_OSS_120B: {
+        id: 'token-factory/openai/gpt-oss-120b',
+        config: {
+            name: 'GPT-OSS 120B',
+            size: ModelSize.REGULAR,
+            provider: 'token-factory',
+            creditCost: 1,
+            contextSize: 131072,
+            directOverride: true,
+            nonReasoning: true,
+        }
+    },
+    TF_GPT_OSS_20B: {
+        id: 'token-factory/openai/gpt-oss-20b',
+        config: {
+            name: 'GPT-OSS 20B (fast)',
+            size: ModelSize.LITE,
+            provider: 'token-factory',
+            creditCost: 0.4,
+            contextSize: 131072,
+            directOverride: true,
+            nonReasoning: true,
+        }
+    },
 } as const;
 
 /**

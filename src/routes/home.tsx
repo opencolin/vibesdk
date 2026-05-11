@@ -14,6 +14,9 @@ import { useImageUpload } from '@/hooks/use-image-upload';
 import { useDragDrop } from '@/hooks/use-drag-drop';
 import { ImageUploadButton } from '@/components/image-upload-button';
 import { ImageAttachmentPreview } from '@/components/image-attachment-preview';
+import { Button } from '@/components/ui/button';
+import { BrandMark } from '@/components/icons/logos';
+import { useAuthModal } from '@/components/auth/AuthModalProvider';
 import { toast } from 'sonner';
 
 export default function Home() {
@@ -22,7 +25,8 @@ export default function Home() {
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 	const [projectMode, setProjectMode] = useState<ProjectType>('app');
 	const [query, setQuery] = useState('');
-	const { user } = useAuth();
+	const { user, isAuthenticated, isLoading: isAuthLoading } = useAuth();
+	const { showAuthModal } = useAuthModal();
 	const { isLoadingCapabilities, capabilities, getEnabledFeatures } = useFeature();
 
 	const modeOptions = useMemo<ProjectModeOption[]>(() => {
@@ -165,6 +169,50 @@ export default function Home() {
 	}, [currentPlaceholderText, currentPlaceholderPhraseIndex, isPlaceholderTyping, placeholderPhrases]);
 
 	const discoverLinkRef = useRef<HTMLDivElement>(null);
+
+	// Unauthenticated landing hero (don't show during initial auth check to avoid flash)
+	if (!isAuthLoading && !isAuthenticated) {
+		return (
+			<section className="relative min-h-screen bg-[var(--deep-navy)] text-white overflow-hidden">
+				{/* lime corner-slash motif */}
+				<div
+					aria-hidden
+					className="absolute -top-20 -right-32 w-[500px] h-[400px] opacity-70 pointer-events-none"
+					style={{
+						background: 'var(--neon-lime)',
+						clipPath: 'polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%)',
+					}}
+				/>
+				<div className="relative z-10 mx-auto max-w-3xl px-6 pt-32 pb-24 text-center">
+					<div className="mb-8 flex justify-center">
+						<BrandMark className="h-12 w-12" />
+					</div>
+					<h1 className="text-5xl font-semibold tracking-tight md:text-6xl leading-[1.05]">
+						Build apps with AI.
+					</h1>
+					<p className="mt-6 text-lg text-white/75 max-w-xl mx-auto">
+						Open-source agent platform. Bring an idea, ship a v1.
+					</p>
+					<div className="mt-10 flex flex-wrap justify-center gap-3">
+						<Button
+							variant="lime"
+							size="lg"
+							onClick={() => showAuthModal('to start building', undefined, '/')}
+						>
+							Get started
+						</Button>
+						<Button
+							variant="outline-accent"
+							size="lg"
+							onClick={() => navigate('/discover')}
+						>
+							Try the demo
+						</Button>
+					</div>
+				</div>
+			</section>
+		);
+	}
 
 	return (
 		<div className="relative flex flex-col items-center size-full">

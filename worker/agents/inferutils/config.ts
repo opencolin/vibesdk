@@ -9,33 +9,33 @@ import {
 } from "./config.types";
 import { env } from 'cloudflare:workers';
 
-// Common configs - these are good defaults
+// Common configs — Token Factory defaults (open-source models, OpenAI-compat).
 const COMMON_AGENT_CONFIGS = {
     screenshotAnalysis: {
         name: AIModels.DISABLED,
         reasoning_effort: 'medium' as const,
         max_tokens: 8000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: AIModels.TF_QWEN_3_30B,
     },
     realtimeCodeFixer: {
-        name: AIModels.GROK_4_1_FAST_NON_REASONING,
+        name: AIModels.TF_QWEN_3_30B,
         reasoning_effort: 'low' as const,
         max_tokens: 32000,
         temperature: 0.2,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: AIModels.TF_GLM_4_5_AIR,
     },
     fastCodeFixer: {
         name: AIModels.DISABLED,
         reasoning_effort: undefined,
         max_tokens: 64000,
         temperature: 0.0,
-        fallbackModel: AIModels.GEMINI_2_5_PRO,
+        fallbackModel: AIModels.TF_QWEN_3_CODER_480B,
     },
     templateSelection: {
-        name: AIModels.GEMINI_2_5_FLASH_LITE,
+        name: AIModels.TF_GLM_4_5_AIR,
         max_tokens: 2000,
-        fallbackModel: AIModels.GROK_4_1_FAST_NON_REASONING,
+        fallbackModel: AIModels.TF_QWEN_3_30B,
         temperature: 1,
     },
 } as const;
@@ -44,140 +44,136 @@ const SHARED_IMPLEMENTATION_CONFIG = {
     reasoning_effort: 'low' as const,
     max_tokens: 48000,
     temperature: 1,
-    fallbackModel: AIModels.GEMINI_2_5_PRO,
+    fallbackModel: AIModels.TF_DEEPSEEK_V3,
 };
 
 //======================================================================================
-// ATTENTION! Platform config requires specific API keys and Cloudflare AI Gateway setup.
+// Platform config — used at build.cloudflare.dev.
+// Routes inference through Token Factory (TOKEN_FACTORY_API_KEY required).
 //======================================================================================
-/* 
-These are the configs used at build.cloudflare.dev 
-You may need to provide API keys for these models in your environment or use 
-Cloudflare AI Gateway unified billing for seamless model access without managing multiple keys.
-*/
 const PLATFORM_AGENT_CONFIG: AgentConfig = {
     ...COMMON_AGENT_CONFIGS,
     blueprint: {
-        name: AIModels.GEMINI_3_PRO_PREVIEW,
+        name: AIModels.TF_QWEN_3_235B,
         reasoning_effort: 'high',
         max_tokens: 20000,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: AIModels.TF_DEEPSEEK_V3,
         temperature: 1.0,
     },
     projectSetup: {
-        name: AIModels.GROK_4_1_FAST,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         reasoning_effort: 'medium',
         max_tokens: 8000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_PRO,
+        fallbackModel: AIModels.TF_QWEN_3_235B,
     },
     phaseGeneration: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         reasoning_effort: 'medium',
         max_tokens: 8000,
         temperature: 1,
-        fallbackModel: AIModels.OPENAI_5_MINI,
+        fallbackModel: AIModels.TF_DEEPSEEK_V3,
     },
     firstPhaseImplementation: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         ...SHARED_IMPLEMENTATION_CONFIG,
     },
     phaseImplementation: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         ...SHARED_IMPLEMENTATION_CONFIG,
     },
     conversationalResponse: {
-        name: AIModels.GROK_4_1_FAST,
+        name: AIModels.TF_LLAMA_3_3_70B,
         reasoning_effort: 'low',
         max_tokens: 4000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: AIModels.TF_GLM_4_5_AIR,
     },
     deepDebugger: {
-        name: AIModels.GROK_4_1_FAST,
+        name: AIModels.TF_DEEPSEEK_R1,
         reasoning_effort: 'high',
         max_tokens: 8000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_PRO,
+        fallbackModel: AIModels.TF_QWEN_3_235B,
     },
     fileRegeneration: {
-        name: AIModels.GROK_4_1_FAST_NON_REASONING,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         reasoning_effort: 'low',
         max_tokens: 16000,
         temperature: 0.0,
-        fallbackModel: AIModels.GROK_CODE_FAST_1,
+        fallbackModel: AIModels.TF_QWEN_3_30B,
     },
     agenticProjectBuilder: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         reasoning_effort: 'medium',
         max_tokens: 8000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_PRO,
+        fallbackModel: AIModels.TF_QWEN_3_235B,
     },
 };
 
 //======================================================================================
-// Default Gemini-only config (most likely used in your deployment)
+// Default config — used when PLATFORM_MODEL_PROVIDERS is not set.
+// Same Token Factory defaults; only TOKEN_FACTORY_API_KEY is required.
 //======================================================================================
-/* These are the default out-of-the box gemini-only models used when PLATFORM_MODEL_PROVIDERS is not set */
 const DEFAULT_AGENT_CONFIG: AgentConfig = {
     ...COMMON_AGENT_CONFIGS,
     templateSelection: {
-        name: AIModels.GEMINI_2_5_FLASH_LITE,
+        name: AIModels.TF_GLM_4_5_AIR,
         max_tokens: 2000,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: AIModels.TF_QWEN_3_30B,
         temperature: 0.6,
     },
     blueprint: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_235B,
         reasoning_effort: 'high',
         max_tokens: 64000,
-        fallbackModel: AIModels.GEMINI_2_5_PRO,
+        fallbackModel: AIModels.TF_DEEPSEEK_V3,
         temperature: 1,
     },
     projectSetup: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         ...SHARED_IMPLEMENTATION_CONFIG,
     },
     phaseGeneration: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         ...SHARED_IMPLEMENTATION_CONFIG,
     },
     firstPhaseImplementation: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         ...SHARED_IMPLEMENTATION_CONFIG,
     },
     phaseImplementation: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         ...SHARED_IMPLEMENTATION_CONFIG,
     },
     conversationalResponse: {
-        name: AIModels.GEMINI_2_5_FLASH,
+        name: AIModels.TF_LLAMA_3_3_70B,
         reasoning_effort: 'low',
         max_tokens: 4000,
         temperature: 0,
-        fallbackModel: AIModels.GEMINI_2_5_PRO,
+        fallbackModel: AIModels.TF_GLM_4_5_AIR,
     },
     deepDebugger: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_DEEPSEEK_R1,
         reasoning_effort: 'high',
         max_tokens: 8000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: AIModels.TF_QWEN_3_235B,
     },
     fileRegeneration: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         reasoning_effort: 'low',
         max_tokens: 32000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: AIModels.TF_QWEN_3_30B,
     },
     agenticProjectBuilder: {
-        name: AIModels.GEMINI_3_FLASH_PREVIEW,
+        name: AIModels.TF_QWEN_3_CODER_480B,
         reasoning_effort: 'high',
         max_tokens: 8000,
         temperature: 1,
-        fallbackModel: AIModels.GEMINI_2_5_FLASH,
+        fallbackModel: AIModels.TF_QWEN_3_235B,
     },
 };
 

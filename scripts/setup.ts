@@ -368,34 +368,36 @@ class SetupManager {
 		// AI Provider configuration
 		console.log('\n🔧 AI Provider Configuration');
 		console.log('Available providers:');
-		console.log('   1. OpenAI (for GPT models)');
-		console.log('   2. Anthropic (for Claude models)');
-		console.log('   3. Google AI Studio (for Gemini models) [DEFAULT]');
-		console.log('   4. Cerebras (for open source models)');
-		console.log('   5. OpenRouter (for various models)');
-		console.log('   6. Custom provider\n');
+		console.log('   1. Token Factory (open-source models, OpenAI-compatible) [DEFAULT]');
+		console.log('   2. OpenAI (for GPT models)');
+		console.log('   3. Anthropic (for Claude models)');
+		console.log('   4. Google AI Studio (for Gemini models)');
+		console.log('   5. Cerebras (for open source models)');
+		console.log('   6. OpenRouter (for various models)');
+		console.log('   7. Custom provider\n');
 
 		const providerChoice = await this.prompt('Select providers (comma-separated numbers, e.g., 1,2,3): ');
-		const selectedProviders = providerChoice.split(',').map(n => parseInt(n.trim())).filter(n => n >= 1 && n <= 6);
+		const selectedProviders = providerChoice.split(',').map(n => parseInt(n.trim())).filter(n => n >= 1 && n <= 7);
 
 		if (selectedProviders.length === 0) {
 			console.log('⚠️  No providers selected - you MUST configure at least one provider!');
-			console.log('   Adding Google AI Studio as default...');
-			selectedProviders.push(3);
+			console.log('   Adding Token Factory as default...');
+			selectedProviders.push(1);
 		}
 
 		// Process selected providers
 		const providerMap = {
-			1: { name: 'OpenAI', key: 'OPENAI_API_KEY', provider: 'openai' },
-			2: { name: 'Anthropic', key: 'ANTHROPIC_API_KEY', provider: 'anthropic' },
-			3: { name: 'Google AI Studio', key: 'GOOGLE_AI_STUDIO_API_KEY', provider: 'google-ai-studio' },
-			4: { name: 'Cerebras', key: 'CEREBRAS_API_KEY', provider: 'cerebras' },
-			5: { name: 'OpenRouter', key: 'OPENROUTER_API_KEY', provider: 'openrouter' }
+			1: { name: 'Token Factory', key: 'TOKEN_FACTORY_API_KEY', provider: 'token-factory' },
+			2: { name: 'OpenAI', key: 'OPENAI_API_KEY', provider: 'openai' },
+			3: { name: 'Anthropic', key: 'ANTHROPIC_API_KEY', provider: 'anthropic' },
+			4: { name: 'Google AI Studio', key: 'GOOGLE_AI_STUDIO_API_KEY', provider: 'google-ai-studio' },
+			5: { name: 'Cerebras', key: 'CEREBRAS_API_KEY', provider: 'cerebras' },
+			6: { name: 'OpenRouter', key: 'OPENROUTER_API_KEY', provider: 'openrouter' }
 		};
 
 		console.log('\n🔑 API Key Configuration');
 		for (const choice of selectedProviders) {
-			if (choice === 6) {
+			if (choice === 7) {
 				// Custom provider
 				const customProviderName = await this.prompt('Enter custom provider name: ');
 				if (customProviderName) {
@@ -420,12 +422,12 @@ class SetupManager {
 			}
 		}
 
-		// Warning about config.ts if not using Gemini as default
-		const hasGemini = selectedProviders.includes(3);
-		if (!hasGemini) {
-			console.log('\n⚠️  IMPORTANT: You selected providers other than Google AI Studio (Gemini).');
-			console.log('   You MUST edit worker/agents/inferutils/config.ts to change the default model configurations');
-			console.log('   from Gemini models to your selected providers!\n');
+		// Warning about config.ts if Token Factory isn't selected (it is the default)
+		const hasTokenFactory = selectedProviders.includes(1);
+		if (!hasTokenFactory) {
+			console.log('\n⚠️  IMPORTANT: You did not select Token Factory.');
+			console.log('   The default agent config in worker/agents/inferutils/config.ts uses Token Factory models.');
+			console.log('   You MUST edit that file to switch to your chosen provider, or your agents will fail at runtime.\n');
 		}
 
 		// OAuth and other configuration with smart prompts
