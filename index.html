@@ -12,6 +12,23 @@
 		<title>vibesdk — Build apps with AI</title>
 		<meta name="description" content="Open-source agent platform. Bring an idea, ship a v1." />
 		<meta name="theme-color" content="#052b42" />
+		<script>
+			// Anti-flash: apply theme class to <html> before paint so the first frame
+			// matches the user's saved preference (or dark by default for unset).
+			(function () {
+				try {
+					var saved = localStorage.getItem('theme');
+					var resolved =
+						saved === 'light' ? 'light'
+						: saved === 'system'
+							? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+							: 'dark';
+					document.documentElement.classList.add(resolved);
+				} catch (_) {
+					document.documentElement.classList.add('dark');
+				}
+			})();
+		</script>
 	</head>
 	<body>
 		<div id="root"></div>
