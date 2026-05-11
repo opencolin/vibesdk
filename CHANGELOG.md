@@ -4,18 +4,18 @@
 
 ### Changed
 
-* Inference now routes through **Nebius Token Factory** instead of Cloudflare AI Gateway. Set `NEBIUS_API_KEY` to get started; `NEBIUS_BASE_URL` is overridable for the US region.
+* Inference now routes through Token Factory (an OpenAI-compatible endpoint) instead of Cloudflare AI Gateway. Set `TOKEN_FACTORY_API_KEY` to get started; `TOKEN_FACTORY_BASE_URL` is overridable for region routing.
 * Default model lineup is now open-source (Qwen, DeepSeek, GLM, Llama, GPT-OSS). Code generation runs Qwen 3 Coder 480B; deep debugging uses DeepSeek R1; planning uses Qwen 3 235B.
-* UI rebrands to the Nebius design language: deep-navy/neon-lime palette with mode-flipped accent, 24px Nebius round corners on cards/buttons, 10px on inputs, locked lime selection state.
+* UI brand refresh: deep-navy + neon-lime palette with mode-flipped accent, 24px round corners on cards/buttons, 10px on inputs, locked lime selection state.
 * Inter font now loaded explicitly from Google Fonts (no more system-fallback failures on Linux).
 * Page title, theme-color meta, and SVG favicon updated to match the new brand.
 
 ### Added
 
-* `NebiusMark` and `VibesdkWordmark` brand components in `src/components/icons/logos.tsx`.
+* `BrandMark` and `VibesdkWordmark` brand components in `src/components/icons/logos.tsx`.
 * Two new button variants: `lime` (mode-agnostic, navy text — for hero CTAs) and `outline-accent`.
 * `data-selected` styling hook on `<Card>` for selection grids.
-* Unauthenticated visitors to `/` see a full-bleed hero with the Nebius lime corner-slash motif and dual CTAs. Authenticated users keep the existing dashboard.
+* Unauthenticated visitors to `/` see a full-bleed hero with the lime corner-slash motif and dual CTAs. Authenticated users keep the existing dashboard.
 * Sidebar active-nav treatment: navy/lime left border that tracks `--accent`.
 
 ### Migration notes

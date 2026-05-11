@@ -9,12 +9,11 @@
 #CLOUDFLARE_ACCOUNT_ID="" # Your Cloudflare account ID
 
 # Inference Provider (REQUIRED):
-# Default inference goes through Nebius Token Factory (https://tokenfactory.nebius.com).
-# Get a key from https://studio.nebius.com/settings/api-keys
-NEBIUS_API_KEY=""
+# Default inference goes through Token Factory (an OpenAI-compatible endpoint).
+TOKEN_FACTORY_API_KEY=""
 # Optional override (default: https://api.tokenfactory.nebius.com/v1/).
-# Use https://api.tokenfactory.us-central1.nebius.com/v1/ for the US region.
-#NEBIUS_BASE_URL=""
+# US region: https://api.tokenfactory.us-central1.nebius.com/v1/
+#TOKEN_FACTORY_BASE_URL=""
 
 # Cloudflare AI Gateway (legacy, optional):
 # Only needed if you switch agent configs back to Anthropic / OpenAI / Gemini / Grok models.

@@ -96,7 +96,7 @@ export function Terminal({
 	const getLogTypeColor = (type: TerminalLog['type']) => {
 		switch (type) {
 			case 'command':
-				return 'text-brand-primary'; // Nebius accent — tracks light/dark
+				return 'text-brand-primary'; // brand accent — tracks light/dark
 			case 'stdout':
 				return 'text-green-600 dark:text-green-400';
 			case 'stderr':

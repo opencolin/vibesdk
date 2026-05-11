@@ -85,7 +85,7 @@
 @custom-variant dark (&:is(.dark *));
 @plugin '@tailwindcss/typography';
 @theme inline {
-	/* Two-tier Nebius radius scale: 10px inputs, 24px cards/buttons */
+	/* Two-tier radius scale: 10px inputs, 24px cards/buttons */
 	--radius-sm:
 		calc(var(--radius) - 14px);
 	--radius-md:
@@ -134,7 +134,7 @@
 
 
 :root {
-	/* Nebius brand palette */
+	/* Brand palette */
 	--deep-navy: #052b42;
 	--neon-lime: #e0ff4f;
 	--ice-blue: #cdf0fd;
@@ -234,7 +234,7 @@
 		0px 0px 0px 1px rgba(205, 240, 253, 0.08);
 }
 
-/* Selection — locked to lime/navy regardless of mode (per Nebius convention). */
+/* Selection — locked to lime/navy regardless of mode. */
 ::selection {
 	background: var(--neon-lime);
 	color: var(--deep-navy);

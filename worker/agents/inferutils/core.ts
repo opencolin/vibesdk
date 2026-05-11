@@ -303,10 +303,10 @@ export async function getConfigurationForModel(
                     baseURL: 'https://api.anthropic.com/v1/',
                     apiKey: env.ANTHROPIC_API_KEY,
                 };
-            case 'nebius':
+            case 'token-factory':
                 return {
-                    baseURL: env.NEBIUS_BASE_URL || 'https://api.tokenfactory.nebius.com/v1/',
-                    apiKey: await getApiKey('nebius', env, userId, runtimeOverrides),
+                    baseURL: env.TOKEN_FACTORY_BASE_URL || 'https://api.tokenfactory.nebius.com/v1/',
+                    apiKey: await getApiKey('token-factory', env, userId, runtimeOverrides),
                 };
             default:
                 providerForcedOverride = modelConfig.provider as AIGatewayProviders;

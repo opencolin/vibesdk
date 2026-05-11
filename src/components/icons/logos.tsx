@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-export function NebiusMark({ className }: { className?: string }) {
+export function BrandMark({ className }: { className?: string }) {
 	return (
 		<svg viewBox="0 0 32 32" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
 			<rect x="2" y="2" width="28" height="28" rx="6" fill="var(--deep-navy)" />
@@ -12,7 +12,7 @@ export function NebiusMark({ className }: { className?: string }) {
 export function VibesdkWordmark({ className }: { className?: string }) {
 	return (
 		<span className={cn("inline-flex items-center gap-2 font-semibold tracking-tight", className)}>
-			<NebiusMark className="h-6 w-6 shrink-0" />
+			<BrandMark className="h-6 w-6 shrink-0" />
 			<span>vibesdk</span>
 		</span>
 	);

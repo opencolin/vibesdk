@@ -368,7 +368,7 @@ class SetupManager {
 		// AI Provider configuration
 		console.log('\n🔧 AI Provider Configuration');
 		console.log('Available providers:');
-		console.log('   1. Nebius Token Factory (open-source models, OpenAI-compatible) [DEFAULT]');
+		console.log('   1. Token Factory (open-source models, OpenAI-compatible) [DEFAULT]');
 		console.log('   2. OpenAI (for GPT models)');
 		console.log('   3. Anthropic (for Claude models)');
 		console.log('   4. Google AI Studio (for Gemini models)');
@@ -381,13 +381,13 @@ class SetupManager {
 
 		if (selectedProviders.length === 0) {
 			console.log('⚠️  No providers selected - you MUST configure at least one provider!');
-			console.log('   Adding Nebius Token Factory as default...');
+			console.log('   Adding Token Factory as default...');
 			selectedProviders.push(1);
 		}
 
 		// Process selected providers
 		const providerMap = {
-			1: { name: 'Nebius Token Factory', key: 'NEBIUS_API_KEY', provider: 'nebius' },
+			1: { name: 'Token Factory', key: 'TOKEN_FACTORY_API_KEY', provider: 'token-factory' },
 			2: { name: 'OpenAI', key: 'OPENAI_API_KEY', provider: 'openai' },
 			3: { name: 'Anthropic', key: 'ANTHROPIC_API_KEY', provider: 'anthropic' },
 			4: { name: 'Google AI Studio', key: 'GOOGLE_AI_STUDIO_API_KEY', provider: 'google-ai-studio' },
@@ -422,11 +422,11 @@ class SetupManager {
 			}
 		}
 
-		// Warning about config.ts if Nebius isn't selected (it is the default)
-		const hasNebius = selectedProviders.includes(1);
-		if (!hasNebius) {
-			console.log('\n⚠️  IMPORTANT: You did not select Nebius Token Factory.');
-			console.log('   The default agent config in worker/agents/inferutils/config.ts uses Nebius models.');
+		// Warning about config.ts if Token Factory isn't selected (it is the default)
+		const hasTokenFactory = selectedProviders.includes(1);
+		if (!hasTokenFactory) {
+			console.log('\n⚠️  IMPORTANT: You did not select Token Factory.');
+			console.log('   The default agent config in worker/agents/inferutils/config.ts uses Token Factory models.');
 			console.log('   You MUST edit that file to switch to your chosen provider, or your agents will fail at runtime.\n');
 		}
 

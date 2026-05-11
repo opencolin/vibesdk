@@ -15,7 +15,7 @@ import { useDragDrop } from '@/hooks/use-drag-drop';
 import { ImageUploadButton } from '@/components/image-upload-button';
 import { ImageAttachmentPreview } from '@/components/image-attachment-preview';
 import { Button } from '@/components/ui/button';
-import { NebiusMark } from '@/components/icons/logos';
+import { BrandMark } from '@/components/icons/logos';
 import { useAuthModal } from '@/components/auth/AuthModalProvider';
 import { toast } from 'sonner';
 
@@ -185,14 +185,13 @@ export default function Home() {
 				/>
 				<div className="relative z-10 mx-auto max-w-3xl px-6 pt-32 pb-24 text-center">
 					<div className="mb-8 flex justify-center">
-						<NebiusMark className="h-12 w-12" />
+						<BrandMark className="h-12 w-12" />
 					</div>
 					<h1 className="text-5xl font-semibold tracking-tight md:text-6xl leading-[1.05]">
-						Build apps with AI, on Nebius.
+						Build apps with AI.
 					</h1>
 					<p className="mt-6 text-lg text-white/75 max-w-xl mx-auto">
-						Open-source agent platform powered by Nebius Token Factory.
-						Bring an idea, ship a v1.
+						Open-source agent platform. Bring an idea, ship a v1.
 					</p>
 					<div className="mt-10 flex flex-wrap justify-center gap-3">
 						<Button
