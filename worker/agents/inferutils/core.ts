@@ -303,6 +303,11 @@ export async function getConfigurationForModel(
                     baseURL: 'https://api.anthropic.com/v1/',
                     apiKey: env.ANTHROPIC_API_KEY,
                 };
+            case 'nebius':
+                return {
+                    baseURL: env.NEBIUS_BASE_URL || 'https://api.tokenfactory.nebius.com/v1/',
+                    apiKey: await getApiKey('nebius', env, userId, runtimeOverrides),
+                };
             default:
                 providerForcedOverride = modelConfig.provider as AIGatewayProviders;
                 break;
@@ -567,6 +572,16 @@ export async function infer<OutputSchema extends z.AnyZodObject>({
 
         // Remove [*.] from model name
         modelName = modelName.replace(/\[.*?\]/, '');
+
+        // For direct provider endpoints (non-gateway), strip the `${provider}/` prefix
+        // so the upstream OpenAI-compat API receives the bare model ID it expects.
+        // OpenRouter is excluded because its OpenAI-compat layer uses prefixed IDs.
+        if (modelConfig.directOverride && modelConfig.provider !== 'openrouter') {
+            const prefix = `${modelConfig.provider}/`;
+            if (modelName.startsWith(prefix)) {
+                modelName = modelName.slice(prefix.length);
+            }
+        }
 
         const client = new OpenAI({ apiKey, baseURL: baseURL, defaultHeaders });
         const schemaObj =
