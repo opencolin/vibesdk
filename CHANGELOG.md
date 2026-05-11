@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.6.0] - 2026-05-10
+
+### Changed
+
+* Inference now routes through **Nebius Token Factory** instead of Cloudflare AI Gateway. Set `NEBIUS_API_KEY` to get started; `NEBIUS_BASE_URL` is overridable for the US region.
+* Default model lineup is now open-source (Qwen, DeepSeek, GLM, Llama, GPT-OSS). Code generation runs Qwen 3 Coder 480B; deep debugging uses DeepSeek R1; planning uses Qwen 3 235B.
+* UI rebrands to the Nebius design language: deep-navy/neon-lime palette with mode-flipped accent, 24px Nebius round corners on cards/buttons, 10px on inputs, locked lime selection state.
+* Inter font now loaded explicitly from Google Fonts (no more system-fallback failures on Linux).
+* Page title, theme-color meta, and SVG favicon updated to match the new brand.
+
+### Added
+
+* `NebiusMark` and `VibesdkWordmark` brand components in `src/components/icons/logos.tsx`.
+* Two new button variants: `lime` (mode-agnostic, navy text — for hero CTAs) and `outline-accent`.
+* `data-selected` styling hook on `<Card>` for selection grids.
+* Unauthenticated visitors to `/` see a full-bleed hero with the Nebius lime corner-slash motif and dual CTAs. Authenticated users keep the existing dashboard.
+* Sidebar active-nav treatment: navy/lime left border that tracks `--accent`.
+
+### Migration notes
+
+* The Cloudflare AI Gateway code paths and per-provider keys remain in the codebase. Self-hosters who want to keep using Claude/GPT/Gemini can revert agent assignments in `worker/agents/inferutils/config.ts`; no other config changes required.
+* The `--radius` derivations changed (sm now resolves to 10px, lg to 24px). Components that visually depended on the prior 8px–12px range may want a `className="rounded-md"` override.
+
 ## [1.5.0](https://github.com/cloudflare/vibesdk/compare/v1.4.0...v1.5.0) (2026-02-03)
 
 
